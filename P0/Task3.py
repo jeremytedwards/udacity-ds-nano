@@ -31,7 +31,9 @@ in Bangalore.
 Print the answer as part of a message:
 "The numbers called by people in Bangalore have codes:"
  <list of codes>
-The list of codes should be print out one per line in lexicographic order with no duplicates.
+
+The list of codes should be print out one per line in lexicographic order 
+with no duplicates.
 
 Part B: What percentage of calls from fixed lines in Bangalore are made
 to fixed lines also in Bangalore? In other words, of all the calls made
@@ -41,6 +43,7 @@ were made to a number also starting with "(080)"?
 Print the answer as a part of a message::
 "<percentage> percent of calls from fixed lines in Bangalore are calls
 to other fixed lines in Bangalore."
+
 The percentage should have 2 decimal digits
 """
 
@@ -52,7 +55,7 @@ The percentage should have 2 decimal digits
 # Part A:
 # To number, from Bangalore fixed line
 
-codes_from_080 = []
+codes_fm_080 = []
 total_fm_808 = 0
 total_to_and_fm_808 = 0
 
@@ -62,12 +65,12 @@ for line in calls:
         # ternary:? if the call from number contains ")", split + ")",
         # else split on " " taking the first item in either case (area code)
         area_code = (line[1].split(" ")[0], line[1].split(")")[0]+")")[")" in line[1]]
-        codes_from_080.append(area_code)
+        codes_fm_080.append(area_code)
         if line[1].startswith("(08"):
             total_to_and_fm_808 += 1
 
 print("The numbers called by people in Bangalore have codes:")
-print(*sorted(set(codes_from_080)), sep="\n")
+print(*sorted(set(codes_fm_080)), sep="\n")
 
 # Part B:
 # Percentage of fixed to fixed on (080)

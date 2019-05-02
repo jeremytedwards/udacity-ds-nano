@@ -28,7 +28,8 @@ txt_time = texts[0][2]
 print("First record of texts, {} texts {} at time {}".format(
     txt_incoming_number,
     txt_answering_number,
-    txt_time))
+    txt_time,
+))
 
 call_incoming_number = calls[-1][0]
 call_answering_number = calls[-1][1]
@@ -40,5 +41,6 @@ print("Last record of calls, {} calls {} at time {}, lasting {} seconds".format(
     call_incoming_number,
     call_answering_number,
     call_time,
-    call_duration))
+    call_duration,
+))
 

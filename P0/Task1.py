@@ -19,22 +19,23 @@ Print a message:
 "There are <count> different telephone numbers in the records."
 """
 
-# get a list of all the texted FROM phone numbers from the texts file
-texts_fm_tel = [item[0] for item in texts]
+texts_fm_tel = []
+texts_to_tel = []
+calls_fm_tel = []
+calls_to_tel = []
 
-# get a list of all the texted TO phone numbers from the texts file
-texts_to_tel = [item[1] for item in texts]
+# get a list of all the texted FROM and TO phone numbers from the texts file list
+for item in texts:
+    texts_fm_tel.append(item[0])
+    texts_to_tel.append(item[1])
 
-
-# get a list of all the dialed FROM phone numbers from the calls file
-calls_fm_tel = [item[0] for item in calls]
-
-# get a list of all the dialed TO phone numbers from the calls file
-calls_to_tel = [item[1] for item in calls]
-
+# get a list of all the dialed FROM and TO phone numbers from the calls file list
+for item in calls:
+    calls_fm_tel.append(item[0])
+    calls_to_tel.append(item[1])
 
 # the length of a unique set of these numbers
 count = len(set(texts_fm_tel + texts_to_tel + calls_fm_tel + calls_to_tel))
 
-# 570 (517 from numbers only)
+# 570 (517 FROM numbers only)
 print("There are {} different telephone numbers in the records.".format(count))

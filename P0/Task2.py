@@ -22,22 +22,27 @@ September 2016.".
 
 calls_made = [(row[0], row[3]) for row in calls]
 calls_received = [(row[1], row[3]) for row in calls]
-all_calls = []
+all_calls = calls_made + calls_received
 
 
-def process_list_of_calls(list_of_calls):
+def total_call_durations(list_of_calls):
+    '''
+
+    Takes a list to tuples and creates a unique set of tuples where the second value
+    is the total of all the similar.
+
+    :param list_of_calls:
+    :return returns a list of unique calls with call times totaled:
+    '''
     dict_of_calls = {}
     for tup in list_of_calls:
         total_duration = int(tup[1]) + int(dict_of_calls.get(tup[0], 0))
         dict_of_calls[tup[0]] = str(total_duration)
-    holder = list(dict_of_calls)
-    return holder
+    return list(dict_of_calls.items())
 
-all_calls.append(process_list_of_calls(calls_made))
-all_calls.append(process_list_of_calls(calls_received))
 
-hold = set(all_calls)
-# telephone_number, total_time = sorted(set(all_calls, 1))
+telephone_number, total_time = sorted(total_call_durations(all_calls),
+                                      key=lambda x: x[1], reverse=True)[0]
 
 print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(
     telephone_number, total_time))

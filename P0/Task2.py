@@ -26,18 +26,18 @@ all_calls = calls_made + calls_received
 
 
 def total_call_durations(list_of_calls):
-    '''
+    """
 
     Takes a list to tuples and creates a unique set of tuples where tuple[0] is the caller
     phone number and tuple[1] is the total of callers total duration in seconds.
 
     :param list_of_calls:
     :return returns a list of unique calls with call times totaled:
-    '''
+    """
     dict_of_calls = {}
     for tup in list_of_calls:
         total_duration = int(tup[1]) + int(dict_of_calls.get(tup[0], 0))
-        dict_of_calls[tup[0]] = str(total_duration)
+        dict_of_calls[tup[0]] = total_duration
     return list(dict_of_calls.items())
 
 

@@ -30,8 +30,10 @@ The length of a unique set of these numbers:
 Task2 - 
 ------------
 
-calls_made : 
-calls_received : 
+In this task I walked each list once to collect the 
+
+calls_made : **O(n)**
+calls_received : **O(n)**
 all_calls : 
 
 

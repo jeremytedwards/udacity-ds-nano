@@ -77,6 +77,7 @@ For loop : **O(n)**
 set() : **O(n)**
 
 Difference operator on lists : **O(n^2)**
+(could be faster if lists were sorted subsets)
 
 sorted() : **O(n log n)**
 

@@ -56,27 +56,30 @@ The percentage should have 2 decimal digits
 # To number, from Bangalore fixed line
 
 codes_fm_080 = []
-total_fm_808 = 0
-total_to_and_fm_808 = 0
+total_fm_080 = 0
+total_to_and_fm_080 = 0
+
 
 for line in calls:
     if line[0].startswith("(08"):
-        total_fm_808 += 1
+        total_fm_080 += 1
         # ternary:? if the call from number contains ")", split + ")",
         # else split on " " taking the first item in either case (area code)
         area_code = (line[1].split(" ")[0], line[1].split(")")[0]+")")[")" in line[1]]
         codes_fm_080.append(area_code)
         if line[1].startswith("(08"):
-            total_to_and_fm_808 += 1
+            total_to_and_fm_080 += 1
+
 
 print("The numbers called by people in Bangalore have codes:")
 print(*sorted(set(codes_fm_080)), sep="\n")
 
-# Part B:
-# Percentage of fixed to fixed on (080)
-print(total_fm_808, "/", total_to_and_fm_808, "=", total_fm_808/total_to_and_fm_808)
 
-percentage = (total_fm_808/total_to_and_fm_808)
+# Part B:
+# Percentage from fixed line to fixed line on (080)
+# print(total_fm_080, "/", total_to_and_fm_080, "=", total_fm_080/total_to_and_fm_080)
+
+percentage = (total_fm_080/total_to_and_fm_080)
 
 print("\n")
 print("{:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed "

@@ -31,10 +31,10 @@ set_of_incoming_numbers = set([row[1] for row in calls])
 set_of_send_text_numbers = set([row[0] for row in texts])
 set_of_receive_text_numbers = set([row[1] for row in texts])
 
-list_of_numbers = set_of_outgoing_numbers \
+set_of_numbers = set_of_outgoing_numbers \
                   - set_of_incoming_numbers \
                   - set_of_send_text_numbers \
                   - set_of_receive_text_numbers
 
 print("These numbers could be telemarketers: ")
-print(*sorted(list_of_numbers), sep="\n")
+print(*sorted(set_of_numbers), sep="\n")

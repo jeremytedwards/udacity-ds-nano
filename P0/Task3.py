@@ -61,13 +61,13 @@ total_to_and_fm_080 = 0
 
 
 for line in calls:
-    if line[0].startswith("(08"):
+    if line[0].startswith("(080)"):
         total_fm_080 += 1
         # ternary:? if the call from number contains ")", split + ")",
         # else split on " " taking the first item in either case (area code)
         area_code = (line[1].split(" ")[0], line[1].split(")")[0]+")")[")" in line[1]]
         codes_fm_080.append(area_code)
-        if line[1].startswith("(08"):
+        if line[1].startswith("(080)"):
             total_to_and_fm_080 += 1
 
 
@@ -79,7 +79,7 @@ print(*sorted(set(codes_fm_080)), sep="\n")
 # Percentage from fixed line to fixed line on (080)
 # print(total_fm_080, "/", total_to_and_fm_080, "=", total_fm_080/total_to_and_fm_080)
 
-percentage = (total_fm_080/total_to_and_fm_080)
+percentage = (total_to_and_fm_080/total_fm_080) * 100
 
 print("\n")
 print("{:.2f} percent of calls from fixed lines in Bangalore are calls to other fixed "

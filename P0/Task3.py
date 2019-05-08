@@ -63,9 +63,10 @@ total_to_and_fm_080 = 0
 for line in calls:
     if line[0].startswith("(080)"):
         total_fm_080 += 1
-        # ternary:? if the call from number contains ")", split + ")",
-        # else split on " " taking the first item in either case (area code)
-        area_code = (line[1].split(" ")[0], line[1].split(")")[0]+")")[")" in line[1]]
+        # ternary:?
+        # if the call from number contains ")", split + ")" [fixed line case],
+        # else split on " " taking the first four digits of the first item as the (area code) [mobile case]
+        area_code = (line[1].split(" ")[0][:4], line[1].split(")")[0]+")")[")" in line[1]]
         codes_fm_080.append(area_code)
         if line[1].startswith("(080)"):
             total_to_and_fm_080 += 1

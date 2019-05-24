@@ -23,7 +23,6 @@ class LinkedList:
         return out_string
 
     def append(self, value):
-
         if self.head is None:
             self.head = Node(value)
             return
@@ -43,30 +42,54 @@ class LinkedList:
 
         return size
 
+    def bubble_sort(self):
+        end = None
+        while end != self.head:
+            p = self.head
+            while p.next != end:
+                q = p.next
+                if p.value > q.value:
+                    p.value, q.value = q.value, p.value
+                p = p.next
+            end = p
 
-def union(llist_1, llist_2):
-    l1 = sorted(llist_1)
-    l2 = sorted(llist_2)
-    result = []
 
-    while l1 is not None and l2 is not None:
-        if l1 < l2:
-            result.append(l1)
-            l1 = l1.next
-        elif l2 < l1:
-            result.append(l2)
-            l2 = l2.next
+def union(l1, l2):
+    l1.bubble_sort()
+    l2.bubble_sort()
+    union_result = LinkedList()
+
+    while l1.head.value is not None and l2.head.value is not None:
+        if l1.head.value < l2.head.value:
+            union_result.append(l1.head.value)
+            l1 = l1.head.next
+        elif l2.head.value < l1.head.value:
+            union_result.append(l2.head.value)
+            l2 = l2.head.next
         else:
-            result.append(l1)
-            l1 = l1.next
-            l2 = l2.next
+            union_result.append(l1.head.value)
+            l1 = l1.head.next
+            l2 = l2.head.next
 
-    return result
+    return union_result
 
 
-def intersection(llist_1, llist_2):
-    # Your Solution Here
-    pass
+def intersection(l1, l2):
+    l1.bubble_sort()
+    l2.bubble_sort()
+    intersection_result = LinkedList()
+
+    while l1.head.value is not None and l2.head.value is not None:
+        if l1.head.value < l2.head.value:
+            l1 = l1.head.next
+        elif l2.head.value < l1.head.value:
+            l2 = l2.head.next
+        else:
+            intersection_result.append(l1.head.value)
+            l1 = l1.head.next
+            l2 = l2.head.next
+
+    return intersection_result
 
 
 # Test case 1
@@ -74,8 +97,8 @@ def intersection(llist_1, llist_2):
 linked_list_1 = LinkedList()
 linked_list_2 = LinkedList()
 
-element_1 = [3,2,4,35,6,65,6,4,3,21]
-element_2 = [6,32,4,9,6,1,11,21,1]
+element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 21]
+element_2 = [6, 32, 4, 9, 6, 1, 11, 21, 1]
 
 for i in element_1:
     linked_list_1.append(i)
@@ -91,8 +114,8 @@ print(union(linked_list_1, linked_list_2))
 linked_list_3 = LinkedList()
 linked_list_4 = LinkedList()
 
-element_1 = [3,2,4,35,6,65,6,4,3,23]
-element_2 = [1,7,8,9,11,21,1]
+element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 23]
+element_2 = [1, 7, 8, 9, 11, 21, 1]
 
 for i in element_1:
     linked_list_3.append(i)

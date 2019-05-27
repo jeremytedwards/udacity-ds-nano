@@ -45,17 +45,17 @@ child.add_group(sub_child)
 parent.add_group(child)
 
 
-print(test1(None))
-# Expected result of the test
-
-print(test2(min_val))
-# Expected result of the test
-
-print(test2_5(some_value))
-# Expected result of the test
-
-print(test2_6(some_value))
-# Expected result of the test
-
-print(test3(max_val))
-# Expected result of the test
+# print(test1(None))
+# # Expected result of the test
+#
+# print(test2(min_val))
+# # Expected result of the test
+#
+# print(test2_5(some_value))
+# # Expected result of the test
+#
+# print(test2_6(some_value))
+# # Expected result of the test
+#
+# print(test3(max_val))
+# # Expected result of the test

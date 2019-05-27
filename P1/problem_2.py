@@ -24,22 +24,28 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
+    results = []
     if not os.listdir(path):
-        yield ""
+        results.append("")
+        # yield ""
     else:
         for pth in os.listdir(path):
             p = os.path.join(path, pth)
             if os.path.isdir(p):
-                yield find_files(suffix, p)
+                find_files(suffix, p)
+                # yield find_files(suffix, p)
             elif os.path.isfile(p):
                 if p.endswith(suffix):
-                    yield p
-
+                    results.append(p)
+                    # yield p
+    return results
 
 
 # files_with_suffix = [].append(find_files(".c", "./testdir"))
-#
-files_with_suffix = [match for match in find_files(".c", "./testdir") if match is not ""]
+
+files_with_suffix = find_files(".c", "./testdir")
+
+# files_with_suffix = [match for match in find_files(".c", "./testdir") if match is not ""]
 
 print(files_with_suffix)
 

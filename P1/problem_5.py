@@ -1,21 +1,21 @@
 # coding=utf-8
 
 import hashlib
+from datetime import datetime
 
 
 class Block:
-    def __init__(self, timestamp, data, previous_hash):
-      self.timestamp = timestamp
-      self.data = data
-      self.previous_hash = previous_hash
-      self.hash = self.calc_hash()
+    def __init__(self, data, timestamp, previous_hash):
+        self.data = data
+        self.timestamp = str(timestamp)
+        self.previous_hash = previous_hash
+        self.hash = self.calc_hash()
 
-
-def calc_hash(self):
-    sha = hashlib.sha256()
-    hash_str = "We are going to encode this string of data!".encode('utf-8')
-    sha.update(hash_str)
-    return sha.hexdigest()
+    def calc_hash(self):
+        sha = hashlib.sha256()
+        hash_str = "We are going to encode this string of data!".encode('utf-8')
+        sha.update(hash_str)
+        return sha.hexdigest()
 
 
 class BlockChain:
@@ -26,18 +26,18 @@ class BlockChain:
         cur_head = self.head
         out_string = ""
         while cur_head:
-            out_string += str(cur_head.value) + " -> "
-            cur_head = cur_head.next
+            out_string += str(cur_head.data) + " -> "
+            cur_head = cur_head.data
         return out_string
 
-    def append(self, value):
+    def append(self, value, timestamp, previous_hash=0):
         if self.head is None:
-            self.head = Block(value)
+            self.head = Block(value, timestamp, previous_hash)
             return
 
         block = self.head
-        while block.next:
-            block = block.next
+        while block.hash:
+            block = block.hash
 
         block.next = Block(value)
 
@@ -46,7 +46,7 @@ class BlockChain:
         block = self.head
         while block:
             size += 1
-            block = block.next
+            block = block.hash
 
         return size
 
@@ -54,11 +54,12 @@ class BlockChain:
 block_chain_1 = BlockChain()
 
 
-chain_1 = ["Bobs Burgers", "Big Burgers", "Boy Burgers", "Turkey Burgers", "Vegi Burgers", "Nan Burgers"]
+chain_1 = ["Bobs Burgers", "Big Burgers", "Boy Burgers", "Turkey Burgers",
+           "Vegi Burgers", "Nan Burgers"]
 
 
 for i in chain_1:
-    block_chain_1.append(i)
+    block_chain_1.append(i, datetime.now(), block_chain_1.__hash__())
 #
 # print(test1(None))
 # # Expected result of the test

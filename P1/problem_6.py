@@ -154,13 +154,13 @@ print(intersection(linked_list_1, linked_list_2))
 linked_list_3 = LinkedList()
 linked_list_4 = LinkedList()
 
-element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 23]
-element_2 = [1, 7, 8, 9, 11, 21, 1]
+element_3 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 23]
+element_4 = [1, 7, 8, 9, 11, 21, 1]
 
-for i in element_1:
+for i in element_3:
     linked_list_3.append(i)
 
-for i in element_2:
+for i in element_4:
     linked_list_4.append(i)
 
 print("union:")
@@ -172,27 +172,27 @@ print(intersection(linked_list_3, linked_list_4))
 # no items intersect
 
 
-# Test case 3
-
-linked_list_4 = LinkedList()
-linked_list_5 = LinkedList()
-
-element_1 = [i + 1 for i in range(random.randint(1, 10000))]
-element_1.append(33)
-
-element_2 = [33]
-
-for i in element_1:
-    linked_list_4.append(i)
-
-for i in element_2:
-    linked_list_5.append(i)
-
-print("union:")
-print(union(linked_list_4, linked_list_5))
-# 33 ...
-
-print("intersection:")
-print(intersection(linked_list_4, linked_list_5))
-# 33
+# # Test case 3
+#
+# linked_list_5 = LinkedList()
+# linked_list_6 = LinkedList()
+#
+# element_5 = [i + 1 for i in range(random.randint(1, 10000))]
+# element_5.append(33)
+#
+# element_6 = [33]
+#
+# for i in element_5:
+#     linked_list_5.append(i)
+#
+# for i in element_6:
+#     linked_list_6.append(i)
+#
+# print("union:")
+# print(union(linked_list_5, linked_list_6))
+# # 33 ...
+#
+# print("intersection:")
+# print(intersection(linked_list_5, linked_list_6))
+# # 33
 

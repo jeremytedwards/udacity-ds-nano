@@ -51,3 +51,23 @@ print(our_cache.get(2))
 
 print(our_cache.get(3))
 # return -1
+
+
+our_cache.set(1, 3)
+
+print(our_cache.get(1))
+# returns 3
+
+print(our_cache.get(2))
+# returns 2
+
+print(our_cache.get(3))
+# return -1
+
+
+our_cache.set(2, 4)
+our_cache.set(2, 5)
+our_cache.set(2, 6)
+
+print(our_cache.get(2))
+# returns 6

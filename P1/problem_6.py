@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import random
+
 
 class Node:
     def __init__(self, value):
@@ -58,18 +60,41 @@ def union(l1, l2):
     l1.bubble_sort()
     l2.bubble_sort()
     union_result = LinkedList()
+    l1_walker = l1.head
+    l2_walker = l2.head
 
-    while l1.head.value is not None and l2.head.value is not None:
-        if l1.head.value < l2.head.value:
-            union_result.append(l1.head.value)
-            l1 = l1.head.next
-        elif l2.head.value < l1.head.value:
-            union_result.append(l2.head.value)
-            l2 = l2.head.next
+    while l1_walker.next is not None and l2_walker.next is not None:
+        # skip duplicates
+        while l1_walker.value == l1_walker.next.value:
+            l1_walker = l1_walker.next
+        while l2_walker.value == l2_walker.next.value:
+            l2_walker = l2_walker.next
+
+        # add to union
+        if l1_walker.value < l2_walker.value:
+            union_result.append(l1_walker.value)
+            l1_walker = l1_walker.next
+        elif l2_walker.value < l1_walker.value:
+            union_result.append(l2_walker.value)
+            l2_walker = l2_walker.next
         else:
-            union_result.append(l1.head.value)
-            l1 = l1.head.next
-            l2 = l2.head.next
+            union_result.append(l1_walker.value)
+            l1_walker = l1_walker.next
+            l2_walker = l2_walker.next
+
+        # handle empty list(s)
+        if l1_walker.next is None:
+            union_result.append(l1_walker.value)  # last item
+            while l2_walker.next is not None:
+                union_result.append(l2_walker.value)
+                l2_walker = l2_walker.next
+            union_result.append(l2_walker.value)  # last item
+        if l2_walker.next is None:
+            union_result.append(l2_walker.value)  # last item
+            while l1_walker.next is not None:
+                union_result.append(l1_walker.value)
+                l1_walker = l1_walker.next
+            union_result.append(l1_walker.value)  # last item
 
     return union_result
 
@@ -78,16 +103,25 @@ def intersection(l1, l2):
     l1.bubble_sort()
     l2.bubble_sort()
     intersection_result = LinkedList()
+    l1_walker = l1.head
+    l2_walker = l2.head
 
-    while l1.head.value is not None and l2.head.value is not None:
-        if l1.head.value < l2.head.value:
-            l1 = l1.head.next
-        elif l2.head.value < l1.head.value:
-            l2 = l2.head.next
+    while l1_walker.next is not None and l2_walker.next is not None:
+        # skip duplicates
+        while l1_walker.value == l1_walker.next.value:
+            l1_walker = l1_walker.next
+        while l2_walker.value == l2_walker.next.value:
+            l2_walker = l2_walker.next
+
+        # add to intersection
+        if l1_walker.value < l2_walker.value:
+            l1_walker = l1_walker.next
+        elif l2_walker.value < l1_walker.value:
+            l2_walker = l2_walker.next
         else:
-            intersection_result.append(l1.head.value)
-            l1 = l1.head.next
-            l2 = l2.head.next
+            intersection_result.append(l1_walker.value)
+            l1_walker= l1_walker.next
+            l2_walker = l2_walker.next
 
     return intersection_result
 
@@ -106,8 +140,14 @@ for i in element_1:
 for i in element_2:
     linked_list_2.append(i)
 
+print("union:")
 print(union(linked_list_1, linked_list_2))
-# print(intersection(linked_list_1, linked_list_2))
+# 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65 ->
+
+print("intersection:")
+print(intersection(linked_list_1, linked_list_2))
+# 4 -> 6 -> 21 ->
+
 
 # Test case 2
 
@@ -123,5 +163,36 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
+print("union:")
 print(union(linked_list_3, linked_list_4))
-# print(intersection(linked_list_3, linked_list_4))
+# 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65 ->
+
+print("intersection:")
+print(intersection(linked_list_3, linked_list_4))
+# no items intersect
+
+
+# Test case 3
+
+linked_list_4 = LinkedList()
+linked_list_5 = LinkedList()
+
+element_1 = [i + 1 for i in range(random.randint(1, 10000))]
+element_1.append(33)
+
+element_2 = [33]
+
+for i in element_1:
+    linked_list_4.append(i)
+
+for i in element_2:
+    linked_list_5.append(i)
+
+print("union:")
+print(union(linked_list_4, linked_list_5))
+# 33 ...
+
+print("intersection:")
+print(intersection(linked_list_4, linked_list_5))
+# 33
+

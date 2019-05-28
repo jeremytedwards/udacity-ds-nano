@@ -31,7 +31,13 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
-    return None
+    if group.users:
+        return user in group.users
+    else:
+        for g in group.groups:
+            return is_user_in_group(user, g)
+
+    return False  # no users in group
 
 
 parent = Group("parent")
@@ -45,17 +51,24 @@ child.add_group(sub_child)
 parent.add_group(child)
 
 
-# print(test1(None))
-# # Expected result of the test
-#
-# print(test2(min_val))
-# # Expected result of the test
-#
-# print(test2_5(some_value))
-# # Expected result of the test
-#
-# print(test2_6(some_value))
-# # Expected result of the test
-#
-# print(test3(max_val))
-# # Expected result of the test
+false_parent = Group("false_parent")
+false_child = Group("false_child")
+
+false_parent.add_group(false_child)
+
+
+# Expected result of the test: True
+print("Parent: " + str(is_user_in_group(sub_child_user, parent)))
+
+# Expected result of the test: True
+print("Child: " + str(is_user_in_group(sub_child_user, child)))
+
+# Expected result of the test: True
+print("Sub-Child: " + str(is_user_in_group(sub_child_user, sub_child)))
+
+
+# Expected result of the test: False
+print("False Parent: " + str(is_user_in_group(sub_child_user, false_parent)))
+
+# # Expected result of the test: False
+print("False Child: " + str(is_user_in_group(sub_child_user, false_child)))

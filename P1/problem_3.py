@@ -6,19 +6,24 @@ from collections import Counter
 class Node(object):
     """Create Node class."""
 
-    def __init__(self, val=None):
+    def __init__(self, alpha=None):
         """Init Node."""
         self._left = None
         self._right = None
-        self._parent = None
-        self.data = val
+        # self._parent = None
+        self.data = alpha
+        self.code = ""
         self.freq = 0
 
     def set_left(self, l):
+        # self.code = "0" + self.code
         self._left = l
+        # self._left.code = "0" + self._left.code
 
     def set_right(self, r):
+        # self.code = "1" + self.code
         self._right = r
+        # self._right.code = "1" + self._right.code
 
     def set_freq(self, f):
         self.freq = f
@@ -31,6 +36,9 @@ class Node(object):
 
     def get_data(self):
         return self.data
+
+    # def get_code(self):
+    #     return self.code
 
     def pre_order(self):
         """Returns the data and freq of all nodes in pre-order
@@ -46,6 +54,13 @@ class Node(object):
             for d, f in self._right.pre_order():
                 yield d, f
 
+    # def display(self):
+    #     """Print the contents of the list"""
+    #     print("({})".format(
+    #         ", ".join(map(repr, self)) +
+    #         ("," if self.length == 1 else "")
+    #     ))
+
 
 class Trie(object):
     def __init__(self, node=Node()):
@@ -58,9 +73,11 @@ class Trie(object):
         new_head.set_right(self.head)
         self.head = new_head
 
-    def in_order(self):
-        result = self.in_order()
+    def pre_order_items(self):
+        result = self.head.pre_order()
         return result
+
+
 
 
 def huffman_encoding(data):
@@ -78,6 +95,8 @@ def huffman_encoding(data):
         top = Node()
         top._left = Node(ordered_data.pop())
         top._right = Node(ordered_data.pop())
+        top._left.code = "0" + top._left.code
+        top._right.code = "1" + top._right.code
         top.freq = top._left.data[1] + top._right.data[1]
         left_trie = Trie(top)
         hm.left_join(left_trie)
@@ -86,13 +105,14 @@ def huffman_encoding(data):
 
 
 def huffman_decoding(tree):
-    decoded_data = [(d, f) for d, f in tree.in_order()]
+    decoded_data = [(d, f) for d, f in tree.pre_order_items()]
 
     return decoded_data
 
 
 tree = huffman_encoding("The bird is the word")
-print(huffman_decoding(tree))
+
+print(tree)
 
 # if __name__ == "__main__":
 #     codes = {}

@@ -59,7 +59,7 @@ chain_1 = ["Bobs Burgers", "Big Burgers", "Boy Burgers", "Turkey Burgers",
 
 
 for i in chain_1:
-    block_chain_1.append(i, datetime.now(), block_chain_1.__hash__())
+    block_chain_1.append(i, datetime.now(), block_chain_1.head.hash())
 #
 # print(test1(None))
 # # Expected result of the test

@@ -2,11 +2,6 @@
 
 import os
 
-# os.path.isdir(path)
-# os.path.isfile(path)
-# os.listdir(directory)
-# os.path.join(...)
-
 
 def find_files(suffix, path):
     """
@@ -25,35 +20,31 @@ def find_files(suffix, path):
        a list of paths
     """
     results = []
-    if not os.listdir(path):
-        results.append("")
-        # yield ""
+    if path is None:
+        results = None
     else:
         for pth in os.listdir(path):
             p = os.path.join(path, pth)
             if os.path.isdir(p):
-                find_files(suffix, p)
-                # yield find_files(suffix, p)
+                not_empty = find_files(suffix, p)
+                if not_empty:
+                    results.append(not_empty.pop())
             elif os.path.isfile(p):
                 if p.endswith(suffix):
                     results.append(p)
-                    # yield p
+
     return results
 
 
-# files_with_suffix = [].append(find_files(".c", "./testdir"))
-
-files_with_suffix = find_files(".c", "./testdir")
-
-# files_with_suffix = [match for match in find_files(".c", "./testdir") if match is not ""]
-
-print(files_with_suffix)
-
 # Empty directory returns ?
-# print(find_files(".c", None))
+print(find_files(".c", None))
 
 # Empty directory returns []
-# print(find_files(".c", "./test"))
+print(find_files(".c", "./test"))
 
-# Full directory returns []
-# print(find_files(".c", "./testdir"))
+# Sample directory returns
+# ['./testdir/subdir3/subsubdir1/b.c',
+# './testdir/t1.c',
+# './testdir/subdir5/a.c',
+# './testdir/subdir1/a.c']
+print(find_files(".c", "./testdir"))

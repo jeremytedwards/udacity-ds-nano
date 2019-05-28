@@ -1,4 +1,7 @@
-hashmap (array)
+Problem 1: LRU Cache
+------------
+
+
+hashtable (array)
 O(n/b) 
 
-Generally, we try to keep our load factor around or less than 0.7

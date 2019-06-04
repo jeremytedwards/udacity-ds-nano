@@ -5,15 +5,17 @@ from datetime import datetime
 
 
 class Block:
-    def __init__(self, data, timestamp, previous_hash):
+    def __init__(self, data, timestamp, previous_hash=0, previous_node=None):
         self.data = data
         self.timestamp = str(timestamp)
         self.previous_hash = previous_hash
-        self.hash = self.calc_hash()
+        self.hash = self.calc_hash(data)
+        self._next = previous_node
 
-    def calc_hash(self):
+    @staticmethod
+    def calc_hash(data):
         sha = hashlib.sha256()
-        hash_str = "We are going to encode this string of data!".encode('utf-8')
+        hash_str = data.encode('utf-8')
         sha.update(hash_str)
         return sha.hexdigest()
 
@@ -26,52 +28,61 @@ class BlockChain:
         cur_head = self.head
         out_string = ""
         while cur_head:
-            out_string += str(cur_head.data) + " -> "
-            cur_head = cur_head.data
+            out_string += '''
+            =========================================================================== 
+            | Timestamp: {0}        
+            | Data:\t\t {1}        
+            | Current:\t {2}        
+            | Previous:\t {3}        
+            ===========================================================================
+            '''.format(
+                cur_head.timestamp,
+                str(cur_head.data),
+                str(cur_head.hash),
+                str(cur_head.previous_hash)
+            )
+            cur_head = cur_head._next
         return out_string
 
-    def append(self, value, timestamp, previous_hash=0):
+    def append(self, value, timestamp):
         if self.head is None:
-            self.head = Block(value, timestamp, previous_hash)
+            self.head = Block(value, timestamp)
+            return
+        else:
+            self.head = Block(value, timestamp, self.head.hash, self.head)
             return
 
-        block = self.head
-        while block.hash:
-            block = block.hash
-
-        block.next = Block(value)
-
-    def size(self):
-        size = 0
-        block = self.head
-        while block:
-            size += 1
-            block = block.hash
-
-        return size
+    def build_blockchain_from_list(self, a_list):
+        for item in a_list:
+            self.append(item, datetime.now())
 
 
-block_chain_1 = BlockChain()
-
-
-chain_1 = ["Bobs Burgers", "Big Burgers", "Boy Burgers", "Turkey Burgers",
+# Test: Chain of 6
+print("Test: Chain of 6")
+block_chain = BlockChain()
+chain = ["Bobs Burgers", "Big Burgers", "Boy Burgers", "Turkey Burgers",
            "Vegi Burgers", "Nan Burgers"]
+block_chain.build_blockchain_from_list(chain)
+
+print(block_chain)
+# Should print a formatted version of the existing blockchain
 
 
-for i in chain_1:
-    block_chain_1.append(i, datetime.now(), block_chain_1.head.hash())
-#
-# print(test1(None))
-# # Expected result of the test
-#
-# print(test2(min_val))
-# # Expected result of the test
-#
-# print(test2_5(some_value))
-# # Expected result of the test
-#
-# print(test2_6(some_value))
-# # Expected result of the test
-#
-# print(test3(max_val))
-# # Expected result of the test
+# Test: Chain of 1
+print("Test: Chain of 1")
+block_chain_1 = BlockChain()
+chain_1 = ["Bobs Burgers"]
+block_chain_1.build_blockchain_from_list(chain_1)
+
+print(block_chain_1)
+# Should print a formatted version of the existing blockchain, one item
+
+
+# Test: Empty Chain
+print("Test: Empty Chain")
+block_chain_0 = BlockChain()
+chain_0 = []
+block_chain_0.build_blockchain_from_list(chain_0)
+
+print(block_chain_0)
+# Should print a formatted version of the existing blockchain, an empty link

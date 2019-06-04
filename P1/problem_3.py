@@ -103,7 +103,7 @@ def huffman_encoding(data):
     while ordered_data:
         top = Node()
         top._left = Node(ordered_data.pop())
-        top._right = Node(ordered_data.pop())
+        top._right = Node(ordered_data.pop()) if len(ordered_data) <= 1 else Node()
         top.freq = top._left.data[1] + top._right.data[1]
         left_trie = Trie(top)
         hm.left_join(left_trie)

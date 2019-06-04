@@ -108,14 +108,6 @@ def huffman_encoding(data):
         left_trie = Trie(top)
         hm.left_join(left_trie)
 
-    # while len(ordered_data) > 1:
-    #     top = Node()
-    #     top._left = Node(ordered_data.pop())
-    #     top._right = Node(ordered_data.pop())
-    #     top.freq = top._left.data[1] + top._right.data[1]
-    #     left_trie = Trie(top)
-    #     hm.left_join(left_trie)
-
     return ordered_data, hm
 
     # def create_tree(frequencies):

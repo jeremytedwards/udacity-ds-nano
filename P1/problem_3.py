@@ -29,38 +29,48 @@ class Node(object):
     def set_freq(self, f):
         self.freq = f
 
-    def set_data(self, d):
-        self.data = d
-
-    def get_freq(self):
-        return self.freq
-
-    def get_data(self):
-        return self.data
+    # def set_data(self, d):
+    #     self.data = d
+    #
+    # def get_freq(self):
+    #     return self.freq
+    #
+    # def get_data(self):
+    #     return self.data
 
     # def get_code(self):
     #     return self.code
 
-    def pre_order(self):
+    def pre_order(self, code=""):
         """Returns the data and freq of all nodes in pre-order
         (me, all left, all right)"""
         # Return me
-        yield self.data, self.freq
+        self.code = code
+        yield self.data, self.freq, self.code
         # Return all the _left items
         if self._left:
-            for d, f in self._left.pre_order():
-                yield d, f
+            code += "0"
+            for d, f, c in self._left.pre_order(code):
+                yield d, f, c
         # Return all the _right
         if self._right:
-            for d, f in self._right.pre_order():
-                yield d, f
+            code += "1"
+            for d, f, c in self._right.pre_order(code):
+                yield d, f, c
 
-    # def display(self):
-    #     """Print the contents of the list"""
-    #     print("({})".format(
-    #         ", ".join(map(repr, self)) +
-    #         ("," if self.length == 1 else "")
-    #     ))
+
+    # # Recursively walk the tree down to the leaves,
+    # # assigning a code value to each symbol
+    # def walk_tree(node, prefix="", code={}):
+    #     if isinstance(node[1].left[1], HuffmanNode):
+    #         walk_tree(node[1].left,prefix+"0", code)
+    #     else:
+    #         code[node[1].left[1]]=prefix+"0"
+    #     if isinstance(node[1].right[1],HuffmanNode):
+    #         walk_tree(node[1].right,prefix+"1", code)
+    #     else:
+    #         code[node[1].right[1]]=prefix+"1"
+    #     return(code)
 
 
 class Trie(object):
@@ -74,8 +84,8 @@ class Trie(object):
         new_head.set_right(self.head)
         self.head = new_head
 
-    def pre_order_items(self):
-        result = self.head.pre_order()
+    def pre_order(self, code=""):
+        result = self.head.pre_order(code)
         return result
 
 
@@ -94,36 +104,49 @@ def huffman_encoding(data):
         top = Node()
         top._left = Node(ordered_data.pop())
         top._right = Node(ordered_data.pop())
-        top._left.code = "0" + top._left.code
-        top._right.code = "1" + top._right.code
         top.freq = top._left.data[1] + top._right.data[1]
         left_trie = Trie(top)
         hm.left_join(left_trie)
 
+    # while len(ordered_data) > 1:
+    #     top = Node()
+    #     top._left = Node(ordered_data.pop())
+    #     top._right = Node(ordered_data.pop())
+    #     top.freq = top._left.data[1] + top._right.data[1]
+    #     left_trie = Trie(top)
+    #     hm.left_join(left_trie)
+
     return ordered_data, hm
 
+    # def create_tree(frequencies):
+    #     p = queue.PriorityQueue()
+    #     for value in frequencies:  # 1. Create a leaf node for each symbol
+    #         p.put(value)  # and add it to the priority queue
+    #     while p.qsize() > 1:  # 2. While there is more than one node
+    #         l, r = p.get(), p.get()  # 2a. remove two highest nodes
+    #         node = HuffmanNode(l, r)  # 2b. create internal node with children
+    #         p.put((l[0] + r[0], node))  # 2c. add new node to queue
+    #     return p.get()  # 3. tree is complete - return root node
 
-def huffman_decoding(tree):
-    decoded_data = [(d, f) for d, f in tree.pre_order_items()]
+
+def huffman_decoding(encoded_data, hm_tree):
+    decoded_data = [(d, f, c) for d, f, c in hm_tree.pre_order()]
 
     return decoded_data
 
 
-# hc_tree = huffman_encoding("The bird is the word")
-#
-# print(hc_tree)
-
 if __name__ == "__main__":
     codes = {}
 
-    a_great_sentence = "The bird is the word"
+    # a_great_sentence = "The bird is the word"
+    a_great_sentence = "abbccc"
 
     print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print("The content of the data is: {}\n".format(a_great_sentence))
 
     encoded_data, hm_tree = huffman_encoding(a_great_sentence)
 
-    print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    # print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print("The content of the encoded data is: {}\n".format(encoded_data))
 
     decoded_data = huffman_decoding(encoded_data, hm_tree)

@@ -7,14 +7,13 @@ import sys
 class Node(object):
     """Create Node class."""
 
-    def __init__(self, alpha=None):
+    def __init__(self, alpha=(None, 0)):
         """Init Node."""
         self._left = None
         self._right = None
-        # self._parent = None
-        self.data = alpha
+        self.data = alpha[0]
         self.code = ""
-        self.freq = 0
+        self.freq = alpha[1]
 
     def set_left(self, l):
         # self.code = "0" + self.code
@@ -88,6 +87,34 @@ class Trie(object):
         result = self.head.pre_order(code)
         return result
 
+    # def gen_trie_from_ord_list(self, ordered_list):
+    #     """
+    #     Given an ordered list this function will create a tree from those values
+    #     :param ordered_list:
+    #     :return: a Trie
+    #     """
+    #     if ordered_list:
+    #         half = len(ordered_list) // 2
+    #
+    #         # yield the middle item round down
+    #         yield ordered_list[half]
+    #
+    #         # yield the middle of the left
+    #         for left in self.gen_trie_from_ord_list(ordered_list[:half]):
+    #             yield left
+    #
+    #         # yield the middle of the right
+    #         for right in self.gen_trie_from_ord_list(ordered_list[half + 1:]):
+    #             yield right
+
+
+def huffman_sub(left_node, right_node):
+    top = Node()
+    top._left = left_node
+    top._right = right_node
+    top.freq = top._left.freq + top._right.freq
+    return top
+
 
 def huffman_encoding(data):
     """
@@ -98,15 +125,33 @@ def huffman_encoding(data):
     """
     ordered_data = Counter(data).most_common()
 
+    # No nodes
     hm = Trie()
 
+    # One node
+    if len(ordered_data) == 1:
+        hm.head = Node(ordered_data.pop())
+
+    # More than one node
     while ordered_data:
-        top = Node()
-        top._left = Node(ordered_data.pop())
-        top._right = Node(ordered_data.pop()) if len(ordered_data) <= 1 else Node()
-        top.freq = top._left.data[1] + top._right.data[1]
-        left_trie = Trie(top)
-        hm.left_join(left_trie)
+        sub_node = Node(ordered_data.pop())
+
+        if len(ordered_data) == 0:
+            hm.head = huffman_sub(hm.head, sub_node)
+            break
+
+        if len(ordered_data) == 1:
+            hm.head = huffman_sub(sub_node, Node(ordered_data.pop()))
+
+        if len(ordered_data) > 0:
+            sub_right_node = Node(ordered_data.pop())
+
+            if hm.head.freq >= sub_right_node.freq:
+                new_right = huffman_sub(sub_right_node, Node(ordered_data.pop()))
+                hm.head = huffman_sub(hm.head, new_right)
+
+            else:
+                hm.head = huffman_sub(sub_node, sub_right_node)
 
     return ordered_data, hm
 
@@ -131,7 +176,7 @@ if __name__ == "__main__":
     codes = {}
 
     # a_great_sentence = "The bird is the word"
-    a_great_sentence = "abbccc"
+    a_great_sentence = "cccabbdddd"
 
     print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print("The content of the data is: {}\n".format(a_great_sentence))

@@ -50,13 +50,6 @@ sub_child.add_user(sub_child_user)
 child.add_group(sub_child)
 parent.add_group(child)
 
-
-false_parent = Group("false_parent")
-false_child = Group("false_child")
-
-false_parent.add_group(false_child)
-
-
 # Expected result of the test: True
 print("Parent: " + str(is_user_in_group(sub_child_user, parent)))
 
@@ -66,6 +59,11 @@ print("Child: " + str(is_user_in_group(sub_child_user, child)))
 # Expected result of the test: True
 print("Sub-Child: " + str(is_user_in_group(sub_child_user, sub_child)))
 
+
+false_parent = Group("false_parent")
+false_child = Group("false_child")
+
+false_parent.add_group(false_child)
 
 # Expected result of the test: False
 print("False Parent: " + str(is_user_in_group(sub_child_user, false_parent)))

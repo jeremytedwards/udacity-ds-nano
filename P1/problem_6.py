@@ -56,72 +56,97 @@ class LinkedList:
             end = p
 
 
-def union(l1, l2):
-    l1.bubble_sort()
-    l2.bubble_sort()
-    union_result = LinkedList()
-    l1_walker = l1.head
-    l2_walker = l2.head
+def union(a, b):
+    """
+    The union of two sets A and B is the set of elements which are in A, in B, or in both A and B
+    :param a:
+    :param b:
+    :return: LinkedList
+    """
 
-    while l1_walker.next is not None and l2_walker.next is not None:
+    union_result = LinkedList()
+
+    a.bubble_sort()
+    b.bubble_sort()
+
+    a_walker = a.head
+    b_walker = b.head
+
+    # Lists of 1 or fewer
+    if a_walker is None:
+        union_result = b.head
+
+    if b_walker is None:
+        union_result = a.head
+
+    while a_walker.next is not None and b_walker.next is not None:
         # skip duplicates
-        while l1_walker.value == l1_walker.next.value:
-            l1_walker = l1_walker.next
-        while l2_walker.value == l2_walker.next.value:
-            l2_walker = l2_walker.next
+        while a_walker.value == a_walker.next.value:
+            a_walker = a_walker.next
+        while b_walker.value == b_walker.next.value:
+            b_walker = b_walker.next
 
         # add to union
-        if l1_walker.value < l2_walker.value:
-            union_result.append(l1_walker.value)
-            l1_walker = l1_walker.next
-        elif l2_walker.value < l1_walker.value:
-            union_result.append(l2_walker.value)
-            l2_walker = l2_walker.next
+        if a_walker.value < b_walker.value:
+            union_result.append(a_walker.value)
+            a_walker = a_walker.next
+        elif b_walker.value < a_walker.value:
+            union_result.append(b_walker.value)
+            b_walker = b_walker.next
         else:
-            union_result.append(l1_walker.value)
-            l1_walker = l1_walker.next
-            l2_walker = l2_walker.next
+            union_result.append(a_walker.value)
+            a_walker = a_walker.next
+            b_walker = b_walker.next
 
         # handle empty list(s)
-        if l1_walker.next is None:
-            union_result.append(l1_walker.value)  # last item
-            while l2_walker.next is not None:
-                union_result.append(l2_walker.value)
-                l2_walker = l2_walker.next
-            union_result.append(l2_walker.value)  # last item
-        if l2_walker.next is None:
-            union_result.append(l2_walker.value)  # last item
-            while l1_walker.next is not None:
-                union_result.append(l1_walker.value)
-                l1_walker = l1_walker.next
-            union_result.append(l1_walker.value)  # last item
+        if a_walker.next is None:
+            union_result.append(a_walker.value)  # last item
+            while b_walker.next is not None:
+                union_result.append(b_walker.value)
+                b_walker = b_walker.next
+            union_result.append(b_walker.value)  # last item
+        if b_walker.next is None:
+            union_result.append(b_walker.value)  # last item
+            while a_walker.next is not None:
+                union_result.append(a_walker.value)
+                a_walker = a_walker.next
+            union_result.append(a_walker.value)  # last item
 
     return union_result
 
 
-def intersection(l1, l2):
-    l1.bubble_sort()
-    l2.bubble_sort()
+def intersection(a, b):
+    """
+    The intersection of two sets A and B, denoted by A ∩ B, is the set of all objects that are members of both
+    the sets A and B.
+    :param a:
+    :param b:
+    :return:
+    """
     intersection_result = LinkedList()
-    l1_walker = l1.head
-    l2_walker = l2.head
 
-    while l1_walker.next is not None and l2_walker.next is not None:
+    a.bubble_sort()
+    b.bubble_sort()
+
+    a_walker = a.head
+    b_walker = b.head
+
+    while a_walker.next is not None and b_walker.next is not None:
         # skip duplicates
-        while l1_walker.value == l1_walker.next.value:
-            l1_walker = l1_walker.next
-        while l2_walker.value == l2_walker.next.value:
-            l2_walker = l2_walker.next
+        while a_walker.value == a_walker.next.value:
+            a_walker = a_walker.next
+        while b_walker.value == b_walker.next.value:
+            b_walker = b_walker.next
 
         # add to intersection
-        if l1_walker.value < l2_walker.value:
-            l1_walker = l1_walker.next
-        elif l2_walker.value < l1_walker.value:
-            l2_walker = l2_walker.next
+        if a_walker.value < b_walker.value:
+            a_walker = a_walker.next
+        elif b_walker.value < a_walker.value:
+            b_walker = b_walker.next
         else:
-            intersection_result.append(l1_walker.value)
-            l1_walker= l1_walker.next
-            l2_walker = l2_walker.next
+            intersection_result.append(a_walker.value)
+            a_walker= a_walker.next
+            b_walker = b_walker.next
 
     return intersection_result
 
@@ -172,27 +197,28 @@ print(intersection(linked_list_3, linked_list_4))
 # no items intersect
 
 
-# # Test case 3
-#
-# linked_list_5 = LinkedList()
-# linked_list_6 = LinkedList()
-#
-# element_5 = [i + 1 for i in range(random.randint(1, 10000))]
-# element_5.append(33)
-#
-# element_6 = [33]
-#
-# for i in element_5:
-#     linked_list_5.append(i)
-#
-# for i in element_6:
-#     linked_list_6.append(i)
-#
-# print("union:")
-# print(union(linked_list_5, linked_list_6))
-# # 33 ...
-#
-# print("intersection:")
-# print(intersection(linked_list_5, linked_list_6))
-# # 33
+# Test case 3
+
+linked_list_5 = LinkedList()
+linked_list_6 = LinkedList()
+
+element_5 = [i + 1 for i in range(random.randint(1, 100))]
+element_5.append(101)
+
+element_6 = [101]
+
+for i in element_5:
+    linked_list_5.append(i)
+
+for i in element_6:
+    linked_list_6.append(i)
+
+print("union:")
+hold = union(linked_list_5, linked_list_6)
+print(union(linked_list_5, linked_list_6))
+# 33 ...
+
+print("intersection:")
+print(intersection(linked_list_5, linked_list_6))
+# 33
 

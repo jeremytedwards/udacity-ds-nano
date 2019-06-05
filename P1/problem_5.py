@@ -29,6 +29,8 @@ class BlockChain:
         out_string = ""
         while cur_head:
             out_string += '''
+             |
+             v
             =========================================================================== 
             | Timestamp: {0}        
             | Data:\t\t {1}        

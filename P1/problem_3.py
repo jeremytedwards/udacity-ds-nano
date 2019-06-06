@@ -120,6 +120,7 @@ if __name__ == "__main__":
     print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print("The content of the encoded data is: {}\n".format(encoded_data))
 
+    # used for testing
     # print(ed_list)
     # print(hm_tree)
     # print("\n")

@@ -9,7 +9,19 @@ def sort_012(input_list):
     Args:
        input_list(list): List to be sorted
     """
-    pass
+    zeros = []
+    ones = []
+    twos = []
+
+    for item in input_list:
+        if item == 0:
+            zeros.append(item)
+        elif item == 1:
+            ones.append(item)
+        elif item == 2:
+            twos.append(item)
+
+    return zeros + ones + twos
 
 
 def test_function(test_case):

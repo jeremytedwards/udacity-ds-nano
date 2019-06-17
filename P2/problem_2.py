@@ -1,23 +1,43 @@
-import math
+# coding=utf-8
 
 
-def rotated_array_search(input_list, number, lowBounds=0, highBounds=None):
-    if highBounds == None:
-        highBounds = len(input_list) - 1
-    if highBounds < lowBounds:
+def rotated_array_search(input_list, number, idx=0):
+    """
+    Find the index by searching in a rotated sorted array
+
+    Args:
+       input_list(array), number(int): Input array to search and the target
+    Returns:
+       int: Index or -1
+    """
+    mid = len(input_list)//2
+    if mid == 0:
         return -1
-    middle = math.floor((lowBounds + highBounds) / 2)
-    if input_list[middle] == number:
-        return middle
-    if input_list[highBounds] == number:
-        return highBounds
-    if input_list[lowBounds] == number:
-        return lowBounds
 
-    if input_list[middle] > number:
-        return rotated_array_search(input_list, number, middle + 1, highBounds)
+    if input_list[idx] == number:
+        return idx
+    elif input_list[idx] > number:
+        # go right
+        top = input_list[mid::]
+        rotated_array_search(input_list[mid::], number)
+    else:
+        # go left
+        bottom = input_list[0:mid:]
+        rotated_array_search(input_list[0:mid:], number)
 
-    return rotated_array_search(input_list, number, lowBounds, middle - 1)
+
+
+# """ returns a node with the given value."""
+#         if self.data == value:
+#             return self
+#         elif self.data > value:
+#             if self._left is None:
+#                 return None
+#             return self._left._find_node(value)
+#         else:
+#             if self._right is None:
+#                 return None
+#             return self._right._find_node(value)
 
 
 def linear_search(input_list, number):
@@ -41,18 +61,3 @@ test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 8])
 test_function([[6, 7, 8, 1, 2, 3, 4], 1])
 test_function([[6, 7, 8, 1, 2, 3, 4], 10])
-
-print(rotated_array_search([6, 7, 8, 9, 10, 1, 2, 3, 4], 1))
-# Should print 5
-
-print(rotated_array_search([4], 1))
-# Should print -1
-
-print(rotated_array_search([4, 0, 0, 0, 0, 0, 0], 1))
-# Should print -1
-
-print(rotated_array_search([], 1))
-# Should print -1
-
-print(rotated_array_search([1, 2, 3, 4, 5], 1))
-# Should print 0

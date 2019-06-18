@@ -13,8 +13,10 @@ class Node:
 
 
 class LinkedList:
-    def __init__(self):
+    def __init__(self, items=()):
         self.head = None
+        for item in items:
+            self.append(item)
 
     def __str__(self):
         cur_head = self.head
@@ -23,6 +25,16 @@ class LinkedList:
             out_string += str(cur_head.value) + " -> "
             cur_head = cur_head.next
         return out_string
+
+    def __iter__(self):
+        """
+        Iterate over the values of the elements in the list
+        in pop-order (first to last)
+        """
+        n = self.head
+        while n is not None:
+            yield n.value
+            n = n.next
 
     def append(self, value):
         if self.head is None:
@@ -44,17 +56,6 @@ class LinkedList:
 
         return size
 
-    def bubble_sort(self):
-        end = None
-        while end != self.head:
-            p = self.head
-            while p.next != end:
-                q = p.next
-                if p.value > q.value:
-                    p.value, q.value = q.value, p.value
-                p = p.next
-            end = p
-
 
 def union(a, b):
     """
@@ -66,51 +67,46 @@ def union(a, b):
 
     union_result = LinkedList()
 
-    a.bubble_sort()
-    b.bubble_sort()
+    a = LinkedList(sorted(set(a)))
+    b = LinkedList(sorted(set(b)))
 
-    a_walker = a.head
-    b_walker = b.head
+
+    union_a_walker = a.head
+    union_b_walker = b.head
 
     # Lists of 1 or fewer
-    if a_walker is None:
+    if union_a_walker is None:
         union_result = b.head
 
-    if b_walker is None:
+    if union_b_walker is None:
         union_result = a.head
 
-    while a_walker.next is not None and b_walker.next is not None:
-        # skip duplicates
-        while a_walker.value == a_walker.next.value:
-            a_walker = a_walker.next
-        while b_walker.value == b_walker.next.value:
-            b_walker = b_walker.next
-
+    while union_a_walker.next is not None and union_b_walker.next is not None:
         # add to union
-        if a_walker.value < b_walker.value:
-            union_result.append(a_walker.value)
-            a_walker = a_walker.next
-        elif b_walker.value < a_walker.value:
-            union_result.append(b_walker.value)
-            b_walker = b_walker.next
+        if union_a_walker.value < union_b_walker.value:
+            union_result.append(union_a_walker.value)
+            union_a_walker = union_a_walker.next
+        elif union_b_walker.value < union_a_walker.value:
+            union_result.append(union_b_walker.value)
+            union_b_walker = union_b_walker.next
         else:
-            union_result.append(a_walker.value)
-            a_walker = a_walker.next
-            b_walker = b_walker.next
+            union_result.append(union_a_walker.value)
+            union_a_walker = union_a_walker.next
+            union_b_walker = union_b_walker.next
 
         # handle empty list(s)
-        if a_walker.next is None:
-            union_result.append(a_walker.value)  # last item
-            while b_walker.next is not None:
-                union_result.append(b_walker.value)
-                b_walker = b_walker.next
-            union_result.append(b_walker.value)  # last item
-        if b_walker.next is None:
-            union_result.append(b_walker.value)  # last item
-            while a_walker.next is not None:
-                union_result.append(a_walker.value)
-                a_walker = a_walker.next
-            union_result.append(a_walker.value)  # last item
+        if union_a_walker.next is None:
+            union_result.append(union_a_walker.value)  # last item
+            while union_b_walker.next is not None:
+                union_result.append(union_b_walker.value)
+                union_b_walker = union_b_walker.next
+            union_result.append(union_b_walker.value)  # last item
+        if union_b_walker.next is None:
+            union_result.append(union_b_walker.value)  # last item
+            while union_a_walker.next is not None:
+                union_result.append(union_a_walker.value)
+                union_a_walker = union_a_walker.next
+            union_result.append(union_a_walker.value)  # last item
 
     return union_result
 
@@ -125,28 +121,22 @@ def intersection(a, b):
     """
     intersection_result = LinkedList()
 
-    a.bubble_sort()
-    b.bubble_sort()
+    a = LinkedList(sorted(set(a)))
+    b = LinkedList(sorted(set(b)))
 
-    a_walker = a.head
-    b_walker = b.head
+    inter_a_walker = a.head
+    inter_b_walker = b.head
 
-    while a_walker.next is not None and b_walker.next is not None:
-        # skip duplicates
-        while a_walker.value == a_walker.next.value:
-            a_walker = a_walker.next
-        while b_walker.value == b_walker.next.value:
-            b_walker = b_walker.next
-
+    while inter_a_walker.next is not None and inter_b_walker.next is not None:
         # add to intersection
-        if a_walker.value < b_walker.value:
-            a_walker = a_walker.next
-        elif b_walker.value < a_walker.value:
-            b_walker = b_walker.next
+        if inter_a_walker.value < inter_b_walker.value:
+            inter_a_walker = inter_a_walker.next
+        elif inter_b_walker.value < inter_a_walker.value:
+            inter_b_walker = inter_b_walker.next
         else:
-            intersection_result.append(a_walker.value)
-            a_walker= a_walker.next
-            b_walker = b_walker.next
+            intersection_result.append(inter_a_walker.value)
+            inter_a_walker = inter_a_walker.next
+            inter_b_walker = inter_b_walker.next
 
     return intersection_result
 
@@ -190,7 +180,7 @@ for i in element_4:
 
 print("union:")
 print(union(linked_list_3, linked_list_4))
-# 1 -> 2 -> 3 -> 4 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65 ->
+# 1 -> 2 -> 3 -> 4 -> 6 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 -> 35 -> 65 ->
 
 print("intersection:")
 print(intersection(linked_list_3, linked_list_4))
@@ -202,8 +192,8 @@ print(intersection(linked_list_3, linked_list_4))
 linked_list_5 = LinkedList()
 linked_list_6 = LinkedList()
 
-element_5 = [i + 1 for i in range(random.randint(1, 100))]
-element_5.append(101)
+element_5 = [101] + [i + 1 for i in range(random.randint(1, 100))]
+# element_5.append(101)
 
 element_6 = [101]
 

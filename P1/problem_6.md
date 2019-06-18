@@ -4,7 +4,7 @@ Problem 6: Union and Intersection
 Using a list for our data structure means we have to walk it every time we want to learn something so I choose to bear the cost of the time early on, sorting it, so that we could benefit from not having to walk the an entire list for every value we wanted to compare.
 
 **bubble_sort**: O(n^2)
-*not the most effecient, but practical for this purpose*   
+*not the most efficient, but practical for this purpose*   
 
 For UNION if there is a long list and a short list we only have to check as many items as the shorter list has then handle the remaining.
 

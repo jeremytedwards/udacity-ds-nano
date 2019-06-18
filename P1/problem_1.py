@@ -49,21 +49,12 @@ print(our_cache_t2.get(2))
 print(our_cache_t2.get(3), "\n")
 # return 3
 
-our_cache_t2.set(1, 3)
 
-print(our_cache_t2.get(1))
-# returns 3
-print(our_cache_t2.get(2))
-# returns -1
-print(our_cache_t2.get(3), "\n")
-# return 3
+our_cache_t3 = LruCache(2)
+our_cache_t3.set(1, 3)
+our_cache_t3.set(2, 4)
+our_cache_t3.set(2, 5)
+our_cache_t3.set(2, 6)
 
-
-our_cache_t4 = LruCache(2)
-our_cache_t4.set(1, 3)
-our_cache_t4.set(2, 4)
-our_cache_t4.set(2, 5)
-our_cache_t4.set(2, 6)
-
-print(our_cache_t4.get(2))
+print(our_cache_t3.get(2))
 # returns 6

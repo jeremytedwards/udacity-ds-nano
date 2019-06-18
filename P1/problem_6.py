@@ -187,28 +187,3 @@ print(intersection(linked_list_3, linked_list_4))
 # no items intersect
 
 
-# Test case 3
-
-linked_list_5 = LinkedList()
-linked_list_6 = LinkedList()
-
-element_5 = [101] + [i + 1 for i in range(random.randint(1, 100))]
-# element_5.append(101)
-
-element_6 = [101]
-
-for i in element_5:
-    linked_list_5.append(i)
-
-for i in element_6:
-    linked_list_6.append(i)
-
-print("union:")
-hold = union(linked_list_5, linked_list_6)
-print(union(linked_list_5, linked_list_6))
-# 33 ...
-
-print("intersection:")
-print(intersection(linked_list_5, linked_list_6))
-# 33
-

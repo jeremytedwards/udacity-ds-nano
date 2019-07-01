@@ -15,10 +15,10 @@ def sqrt(number):
        int: Floored Square Root
     """
     number = abs(number)
-    bit = 1 << 62  # second to top of 16 bit is 14, 32 bit would be 1 << 30
+    bit = 1 << 62  # second to top of 64 bit is 62, 32 bit would be 1 << 30
     result = 0
 
-    # Start with the highest power that is less than the number
+    # Start with the highest power of 4 that is less than the number
     while bit > number:
         bit >>= 2
 

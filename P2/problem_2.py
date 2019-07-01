@@ -10,22 +10,23 @@ def rotated_array_search(input_list, number, idx=0):
     Returns:
        int: Index or -1
     """
-    mid = len(input_list)//2
+    mid = len(input_list) // 2
     if mid == 0:
         return -1
 
+    # Check for pivot index
+    if input_list[mid] > input_list[mid + 1]:
+        pivot_index = mid + 1
+
     if input_list[idx] == number:
         return idx
+
     elif input_list[idx] > number:
-        # go right
-        top = input_list[mid::]
+        top = input_list[mid::]   # go right
         rotated_array_search(input_list[mid::], number)
     else:
-        # go left
-        bottom = input_list[0:mid:]
+        bottom = input_list[0:mid:]   # go left
         rotated_array_search(input_list[0:mid:], number)
-
-
 
 # """ returns a node with the given value."""
 #         if self.data == value:

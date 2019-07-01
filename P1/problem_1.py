@@ -25,6 +25,7 @@ class LruCache(object):
         self.cache[key] = value
 
 
+print("----------------Test Case 1----------------")
 our_cache_t1 = LruCache(2)
 our_cache_t1.set(1, 1)
 our_cache_t1.set(2, 2)
@@ -37,6 +38,7 @@ print(our_cache_t1.get(3), "\n")
 # return -1
 
 
+print("----------------Test Case 2----------------")
 our_cache_t2 = LruCache(2)
 our_cache_t2.set(1, 1)
 our_cache_t2.set(2, 2)
@@ -50,6 +52,7 @@ print(our_cache_t2.get(3), "\n")
 # return 3
 
 
+print("----------------Test Case 3----------------")
 our_cache_t3 = LruCache(2)
 our_cache_t3.set(1, 3)
 our_cache_t3.set(2, 4)

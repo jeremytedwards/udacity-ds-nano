@@ -1,7 +1,5 @@
 # coding=utf-8
 
-import random
-
 
 class Node:
     def __init__(self, value):
@@ -59,7 +57,8 @@ class LinkedList:
 
 def union(a, b):
     """
-    The union of two sets A and B is the set of elements which are in A, in B, or in both A and B
+    The union of two sets A and B is the set of elements which are in A, in B, or in
+    both A and B
     :param a:
     :param b:
     :return: LinkedList
@@ -69,7 +68,6 @@ def union(a, b):
 
     a = LinkedList(sorted(set(a)))
     b = LinkedList(sorted(set(b)))
-
 
     union_a_walker = a.head
     union_b_walker = b.head
@@ -113,8 +111,8 @@ def union(a, b):
 
 def intersection(a, b):
     """
-    The intersection of two sets A and B, denoted by A ∩ B, is the set of all objects that are members of both
-    the sets A and B.
+    The intersection of two sets A and B, denoted by A ∩ B, is the set of all objects
+    that are members of both the sets A and B.
     :param a:
     :param b:
     :return:
@@ -142,7 +140,7 @@ def intersection(a, b):
 
 
 # Test case 1
-
+print("----------------Test Case 1----------------")
 linked_list_1 = LinkedList()
 linked_list_2 = LinkedList()
 
@@ -165,7 +163,7 @@ print(intersection(linked_list_1, linked_list_2))
 
 
 # Test case 2
-
+print("----------------Test Case 2----------------")
 linked_list_3 = LinkedList()
 linked_list_4 = LinkedList()
 
@@ -185,5 +183,3 @@ print(union(linked_list_3, linked_list_4))
 print("intersection:")
 print(intersection(linked_list_3, linked_list_4))
 # no items intersect
-
-

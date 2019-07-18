@@ -1,69 +1,94 @@
 # coding=utf-8
 
-from ipywidgets import widgets
-from IPython.display import display
-from ipywidgets import interact
-
-## Represents a single node in the Trie
-class TrieNode:
-    def __init__(self):
-
-    ## Initialize this node in the Trie
-
-    def insert(self, char):
+# from ipywidgets import widgets
+# from IPython.display import display
+# from ipywidgets import interact
 
 
-## Add a child node in this Trie
+# # Represents a single node in the Trie
+# class TrieNode:
+#     def __init__(self):
+#         self.letter = '*'
+#         self.children = []
+#         self.terminal = True
+#
+#     def insert(self, char):
+#         self.letter = char
+#         self.children = TrieNode()
+#         self.terminal = False
 
-## The Trie itself containing the root node and insert/find functions
+
+# The Trie itself containing the root node and insert/find functions
 class Trie:
     def __init__(self):
-
-    ## Initialize this Trie (add a root node)
+        self.root = {}
 
     def insert(self, word):
+        current = self.root
 
-    ## Add a word to the Trie
+        for ltr in word:
+            if ltr not in current:
+                current[ltr] = {}
+            current = current[ltr]
+
+        current['*'] = True
 
     def find(self, prefix):
-## Find the Trie node that represents this prefix
+        current = self.root
+
+        for ltr in prefix:
+            if ltr not in current:
+                return {}
+            current = current[ltr]
+        if '*' in current:
+            return {}
+        else:
+            return current
 
 
 class TrieNode:
     def __init__(self):
-        ## Initialize this node in the Trie
-        pass
+        self.letter = '*'
+        self.children = []
+        self.terminal = True
 
     def insert(self, char):
-        ## Add a child node in this Trie
-        pass
+        self.letter = char
+        self.children = TrieNode()
+        self.terminal = False
 
     def suffixes(self, suffix=''):
-## Recursive function that collects the suffix for
-## all complete words below this point
+        # Recursive function that collects the suffix for
+        # all complete words below this point
+
+        for keys, values in self:
+            yield keys
+
 
 
 MyTrie = Trie()
+
 wordList = [
     "ant", "anthology", "antagonist", "antonym",
     "fun", "function", "factory",
     "trie", "trigger", "trigonometry", "tripod"
 ]
+
 for word in wordList:
     MyTrie.insert(word)
 
 
-
-
 def f(prefix):
     if prefix != '':
-        prefixNode = MyTrie.find(prefix)
-        if prefixNode:
-            print('\n'.join(prefixNode.suffixes()))
+        prefix_node = MyTrie.find(prefix)
+        if prefix_node:
+            print('\n'.join(prefix_node.suffixes()))
         else:
             print(prefix + " not found")
     else:
         print('')
 
 
-interact(f, prefix='');
+f("an")
+f("fu")
+f("t")

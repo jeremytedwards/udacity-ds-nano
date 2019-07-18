@@ -1,51 +1,65 @@
 # coding=utf-8
 
 
-def rotated_array_search(input_list, number, idx=0):
+def array_search(input_list, num):
+    if len(input_list) == 0:
+        return None
+
+    mid = len(input_list) // 2
+
+    if input_list[mid] == num:
+        return mid
+
+    if mid == 0:
+        return None
+
+    elif input_list[mid] > num:
+        array_search(input_list[0:mid:], num)  # go left
+
+    else:
+        array_search(input_list[mid::], num)  # go right
+
+
+def rotated_array_search(input_list, number):
     """
     Find the index by searching in a rotated sorted array
 
     Args:
-       input_list(array), number(int): Input array to search and the target
+       input_list(array): Input array
+       number(int): Target to search for
     Returns:
-       int: Index or -1
+       int: Index or None
     """
-    mid = len(input_list) // 2
-    if mid == 0:
-        return -1
+    # find pivot
+    pivot = pivot_search(input_list)
 
-    # Check for pivot index
-    if input_list[mid] > input_list[mid + 1]:
-        pivot_index = mid + 1
+    temp_1 = input_list[0:pivot]
+    temp_2 = input_list[pivot::]
+    # search left
+    index = array_search(input_list[0:pivot], number)
 
-    if input_list[idx] == number:
-        return idx
+    # if not found in left search right
+    if index is None:
+        index = array_search(input_list[pivot::], number)
+        return index if index is None else pivot + index
 
-    elif input_list[idx] > number:
-        top = input_list[mid::]   # go right
-        rotated_array_search(input_list[mid::], number)
-    else:
-        bottom = input_list[0:mid:]   # go left
-        rotated_array_search(input_list[0:mid:], number)
+    return index
 
-# """ returns a node with the given value."""
-#         if self.data == value:
-#             return self
-#         elif self.data > value:
-#             if self._left is None:
-#                 return None
-#             return self._left._find_node(value)
-#         else:
-#             if self._right is None:
-#                 return None
-#             return self._right._find_node(value)
+
+def pivot_search(input_list):
+    for index, element in enumerate(input_list):
+        if index == len(input_list) - 1:
+            return index
+        if element > input_list[index + 1]:
+            return index
+    return None
 
 
 def linear_search(input_list, number):
     for index, element in enumerate(input_list):
         if element == number:
             return index
-    return -1
+    return None
 
 
 def test_function(test_case):
@@ -56,6 +70,9 @@ def test_function(test_case):
     else:
         print("Fail")
 
+
+test_function([[1, 2, 3, 4, 6, 7, 8, 9, 10], 10])
+test_function([[10, 1, 2, 3, 4, 6, 7, 8, 9], 10])
 
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 6])
 test_function([[6, 7, 8, 9, 10, 1, 2, 3, 4], 1])
